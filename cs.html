@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精品商城 - 智能手表专区</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 40px;
+        }
+        
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .category-btn {
+            padding: 8px 16px;
+            background: #f1f1f1;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .category-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sort-options select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-category {
+            color: #3498db;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: #3498db;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+        
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .sort-options {
+                justify-content: flex-end;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">精品商城</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">首页</a></li>
+                    <!-- 修改产品链接指向本地文件路径 -->
+                    <li><a href="/shangpinmiaoshu/cs.html">产品</a></li>
+                    <li><a href="/shangpinmiaoshu/qianduan/gywm.html">关于我们</a></li>
+                    <li><a href="/shangpinmiaoshu/qianduan/lxwm.html">联系方式</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="filters">
+            <div class="categories">
+                <button class="category-btn active" data-category="all">全部商品</button>
+                <button class="category-btn" data-category="electronics">智能运动</button>
+                <button class="category-btn" data-category="clothing">时尚潮流</button>
+                <button class="category-btn" data-category="books">商务办公</button>
+                <button class="category-btn" data-category="home">健康监测</button>
+                <button class="category-btn" data-category="sports">户外运动</button>
+            </div>
+            
+            <div class="sort-options">
+                <span>排序方式：</span>
+                <select id="sort-select">
+                    <option value="default">默认排序</option>
+                    <option value="price-asc">价格从低到高</option>
+                    <option value="price-desc">价格从高到低</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="products-grid" id="products-container">
+            <!-- 商品将通过JavaScript动态生成 -->
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="about.html">公司简介</a></li>
+                        <li><a href="story.html">品牌故事</a></li>
+                        <li><a href="jobs.html">招贤纳士</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>客户服务</h3>
+                    <ul>
+                        <li><a href="shipping.html">配送信息</a></li>
+                        <li><a href="return.html">退换政策</a></li>
+                        <li><a href="guide.html">使用指南</a></li>
+                        <li><a href="faq.html">常见问题</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>关注我们</h3>
+                    <ul>
+                        <li><a href="wechat.html">微信公众号</a></li>
+                        <li><a href="weibo.html">微博</a></li>
+                        <li><a href="douyin.html">抖音</a></li>
+                        <li><a href="xiaohongshu.html">小红书</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 精品商城 版权所有
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 商品数据 - 恢复原始价格
+        const products = [
+            {
+                id: 1,
+                name: "智能手表 Pro X 运动版",
+                category: "electronics",
+                price: 1299,
+                description: "专业运动监测，精准心率追踪",
+                image: "https://via.placeholder.com/300x200?text=运动手表",
+                detailUrl: "/shangpinmiaoshu/qianduan/cpjs.html"
+            },
+            {
+                id: 2,
+                name: "智能手表 Pro X 时尚版",
+                category: "clothing",
+                price: 129,
+                description: "时尚设计，多种表带可选",
+                image: "https://via.placeholder.com/300x200?text=时尚手表",
+                detailUrl: "p123detail.html"
+            },
+            {
+                id: 3,
+                name: "智能手表 Pro X 商务版",
+                category: "books",
+                price: 199,
+                description: "商务功能齐全，支持移动支付",
+                image: "https://via.placeholder.com/300x200?text=商务手表",
+                detailUrl: "product-123.html"
+            },
+            {
+                id: 4,
+                name: "智能手表 Pro X 健康版",
+                category: "home",
+                price: 19,
+                description: "24小时健康监测，血氧检测",
+                image: "https://via.placeholder.com/300x200?text=健康手表",
+                detailUrl: "123t-detail.html"
+            },
+            {
+                id: 5,
+                name: "智能手表 Pro X 户外版",
+                category: "sports",
+                price: 19,
+                description: "防水防尘，GPS精准定位",
+                image: "https://via.placeholder.com/300x200?text=户外手表",
+                detailUrl: "p123ct-detail.html"
+            },
+            {
+                id: 6,
+                name: "智能手表 Pro X 旗舰版",
+                category: "electronics",
+                price: 299,
+                description: "旗舰配置，超长续航",
+                image: "https://via.placeholder.com/300x200?text=旗舰手表",
+                detailUrl: "p123duct-detail.html"
+            },
+            {
+                id: 7,
+                name: "智能手表 Pro X 青春版",
+                category: "clothing",
+                price: 19,
+                description: "年轻时尚，多彩配色",
+                image: "https://via.placeholder.com/300x200?text=青春手表",
+                detailUrl: "pr123t-detail.html"
+            },
+            {
+                id: 8,
+                name: "智能手表 Pro X 经典版",
+                category: "books",
+                price: 129,
+                description: "经典设计，永不过时",
+                image: "https://via.placeholder.com/300x200?text=经典手表",
+                detailUrl: "123.html"
+            },
+            {
+                id: 9,
+                name: "智能手表 Pro X 运动增强版",
+                category: "sports",
+                price: 199,
+                description: "专业运动算法，精准数据",
+                image: "https://via.placeholder.com/300x200?text=运动增强",
+                detailUrl: "pr123etail.html"
+            },
+            {
+                id: 10,
+                name: "智能手表 Pro X 健康专业版",
+                category: "home",
+                price: 199,
+                description: "医疗级健康监测",
+                image: "https://via.placeholder.com/300x200?text=健康专业",
+                detailUrl: "prod123detail.html"
+            },
+            {
+                id: 11,
+                name: "智能手表 Pro X 商务精英版",
+                category: "books",
+                price: 199,
+                description: "商务人士首选",
+                image: "https://via.placeholder.com/300x200?text=商务精英",
+                detailUrl: "product-123ail.html"
+            },
+            {
+                id: 12,
+                name: "智能手表 Pro X 时尚旗舰版",
+                category: "clothing",
+                price: 199,
+                description: "时尚与科技的完美结合",
+                image: "https://via.placeholder.com/300x200?text=时尚旗舰",
+                detailUrl: "product-de123il.html"
+            }
+        ];
+
+        // 分类名称映射 - 更新为智能手表相关分类
+        const categoryNames = {
+            'electronics': '智能运动',
+            'clothing': '时尚潮流',
+            'books': '商务办公',
+            'home': '健康监测',
+            'sports': '户外运动'
+        };
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts(products);
+            
+            // 分类筛选事件
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有active类
+                    document.querySelectorAll('.category-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    // 为当前点击的元素添加active类
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    filterProducts(category);
+                });
+            });
+            
+            // 排序事件
+            document.getElementById('sort-select').addEventListener('change', function() {
+                sortProducts(this.value);
+            });
+        });
+
+        // 渲染商品
+        function renderProducts(productsToRender) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            productsToRender.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.dataset.id = product.id;
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${categoryNames[product.category]}</div>
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">¥${product.price}</div>
+                    </div>
+                `;
+                
+                // 添加点击事件 - 所有商品都跳转到指定链接
+                productCard.addEventListener('click', function() {
+                    navigateToProductDetail(product);
+                });
+                
+                container.appendChild(productCard);
+            });
+        }
+
+        // 筛选商品
+        function filterProducts(category) {
+            let filteredProducts;
+            
+            if (category === 'all') {
+                filteredProducts = products;
+            } else {
+                filteredProducts = products.filter(product => product.category === category);
+            }
+            
+            // 获取当前排序方式
+            const sortValue = document.getElementById('sort-select').value;
+            if (sortValue !== 'default') {
+                sortProducts(sortValue, filteredProducts);
+            } else {
+                renderProducts(filteredProducts);
+            }
+        }
+
+        // 排序商品
+        function sortProducts(sortValue, productsToSort = products) {
+            let sortedProducts = [...productsToSort];
+            
+            if (sortValue === 'price-asc') {
+                sortedProducts.sort((a, b) => a.price - b.price);
+            } else if (sortValue === 'price-desc') {
+                sortedProducts.sort((a, b) => b.price - a.price);
+            }
+            
+            renderProducts(sortedProducts);
+        }
+
+        // 跳转到商品详情页
+        function navigateToProductDetail(product) {
+            // 所有商品都跳转到指定的商品详情页面
+            window.location.href = product.detailUrl;
+        }
+    </script>
+</body>
+</html>
